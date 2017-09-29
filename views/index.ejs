@@ -3,30 +3,30 @@
 <head>
   <title>iRobot Create of Tanks</title>
   <link rel="stylesheet" href="stylesheets/style.css">
-  <!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
-  <script src="http://192.168.1.3:8080/socket.io/socket.io.js"></script>
+  <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+  <!-- <script src="http://192.168.1.3:8080/socket.io/socket.io.js"></script> -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script src="javascripts/control.js"></script>
   <script src="javascripts/jquery.knob.js"></script>
 
   <script language="javascript" type="text/javascript">
-  //const socket = io.connect("http://localhost:8080");
-  const socket = io.connect("http://192.168.1.3:8080");
+  const socket = io.connect("http://localhost:8080");
+  // const socket = io.connect("http://192.168.1.3:8080");
   </script>
 
 
 </head>
 <body>
   <div id="modalWindow">
-  <div>
-    <form id="registNickname" action="" onsubmit="return false;">
-      <p>Enter your name</p>
-      <input id="nickname" autocomplete="off" placeholder="your name"/>
-      <button>Enter</button>
-    </form>
+    <div>
+      <form id="registNickname" action="" onsubmit="return false;">
+        <p>Enter your name</p>
+        <input id="nickname" autocomplete="off" placeholder="your name"/>
+        <button>Enter</button>
+      </form>
+    </div>
   </div>
-</div>
   <div id="output"></div>
   <div id="site-box">
     <!-- ページ全体のボックス -->
@@ -70,16 +70,27 @@
         </div>
 
         <div id="control-body-box">
-          <h3>iRobot Create</h3>
           <div id="control-body-box-button">
-            &emsp;&emsp;&emsp;<input type="button" onMouseDown="start('body_straight');" ontouchstart="start('body_straight');" onMouseUp="stop('body_straight');" onmouseout="stop('body_straight');" ontouchend="stop('body_straight');" class="btn" value="前進">
+
+            <!-- <p class="body_control"><button id="body_straight_btn">↑</button></p>
             <br>
-            <input type="button" onMouseDown="start('body_left');" ontouchstart="start('body_left');" onMouseUp="stop('body_left');" onmouseout="stop('body_left');" ontouchend="stop('body_left');" class="btn" value="左">
-            <input type="button" onMouseDown="start('body_stop');" ontouchstart="start('body_stop');" onMouseUp="stop('body_stop');" onmouseout="stop('body_stop');" ontouchend="stop('body_stop');" class="btn" value="止">
-            <input type="button" onMouseDown="start('body_right');" ontouchstart="start('body_right');" onMouseUp="stop('body_right');" onmouseout="stop('body_right');" ontouchend="stop('body_right');" class="btn" value="右">
+            <p class="body_control"><button id="body_left_btn">←</button></p>
+            <p class="body_control"><button id="body_stop_btn">○</button></p>
+            <p class="body_control"><button id="body_right_btn">→</button></p>
+            <p class="body_control"><button id="body_back_btn">↓</button></p> -->
+            &emsp;&emsp;&emsp;<input type="button" onMouseDown="control_body('body_straight');", bodystraightStatus.innerHTML = "Straight"; ontouchstart="control_body('body_straight');" onMouseUp="control_body('body_straight_stop');" class="btn" value="前進">
             <br>
-            &emsp;&emsp;&emsp;<input type="button" onMouseDown="start('body_back');" ontouchstart="start('body_back');" onMouseUp="stop('body_back');" onmouseout="stop('body_back');" ontouchend="stop('body_back');" class="btn" value="後進">
+            <input type="button" onMouseDown="control_body('body_left');" ontouchstart="control_body('body_left');" onMouseUp="control_body('body_left_stop');" class="btn" value="左">
+            <input type="button" onMouseDown="control_body('body_stop');" ontouchstart="control_body('body_stop');"   class="btn" value="止">
+            <input type="button" onMouseDown="control_body('body_right');" ontouchstart="control_body('body_right');" onMouseUp="control_body('body_right_stop');"  class="btn" value="右">
+            <br>
+            &emsp;&emsp;&emsp;<input type="button" onMouseDown="control_body('body_back');" ontouchstart="control_body('body_back');" onMouseUp="control_body('body_back_stop');"  class="btn" value="後進">
           </div>
+          <p id="body_straight_status">　</p>
+          <p id="body_right_status">　</p>
+          <p id="body_left_status">　</p>
+          <p id="body_back_status">　</p>
+
         </div>
 
       </div>
@@ -166,7 +177,6 @@
 
       <div id="footer-box">
         <!-- フッター -->
-        <p>基盤システム特論5班</p>
       </div>
 
     </div>

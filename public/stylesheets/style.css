@@ -1,12 +1,12 @@
 #site-box {
   margin: 0; padding: 0; box-sizing: border-box;
   font: 13px Helvetica, Arial;
-border: 1px solid #FF9900;
+border: 1px solid #098E82;
     }
 
     #header-box {
-      border: 1px solid #FF9900;
-              background-color: #FFFF99;
+      border: 1px solid #098E82;
+              background-color: #BCF4F0;
         }
 
 
@@ -16,12 +16,12 @@ border: 1px solid #FF9900;
     }
 
 #houdai-box {
-  border: 1px solid #FF9900;
+  border: 1px solid #098E82;
   height: 300px
     }
 
 #back-box {
-  border: 1px solid #FF9900;
+  border: 1px solid #098E82;
   height: 300px;
      }
 
@@ -32,17 +32,17 @@ border: 1px solid #FF9900;
     }
 
 #control-houdai-box {
-  border: 1px solid #FF9900;
+  border: 1px solid #098E82;
   height: 200px;
       }
 
 #control-back-box {
-  border: 1px solid #FF9900;
+  border: 1px solid #098E82;
   height: 200px;
     }
 
 #control-body-box {
-  border: 1px solid #FF9900;
+  border: 1px solid #098E82;
   height: 200px;
     }
 #control-body-box-button{
@@ -59,12 +59,12 @@ border: 1px solid #FF9900;
 
 
 #status-box {
-  border: 1px solid #FF9900;
+  border: 1px solid #098E82;
   height: 100px;
     }
 
     #chat-box {
-      border: 1px solid #FF9900;
+      border: 1px solid #098E82;
       height:500px;
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
       /*  form { background: #000; padding: 3px; position: fixed; bottom: 0; left: 1px; width: 295px; }*/
@@ -80,14 +80,14 @@ border: 1px solid #FF9900;
         height:400px;
         overflow: scroll;
         #messages { list-style-type: none; margin: 0; padding: 0; }
-        #messages li { padding: 5px 10px; background: #eeeeee;}
+        #messages li { padding: 5px 10px; background: #BCF4F0;}
         #messages li:nth-child(odd) { background: #e2e2e2; }
       }
 
 #footer-box {
-  border: 1px solid #FF9900;
+  border: 1px solid #098E82;
           clear: both;
-          background-color: #FFFF99;
+          background-color: #BCF4F0;
     }
 
 
