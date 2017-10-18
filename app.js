@@ -8,9 +8,27 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var $ = require('jquery');
 
-var hello = "hello"
-
 var app = express();
+const exec = require('child_process').exec;
+exec('sudo /home/pi/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer -i "/home/pi/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -f 10 -r 300x300 -d /dev/video0 -y -n" -o "/home/pi/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w /home/pi/mjpg-streamer/mjpg-streamer-experimental/www -p 15000"', (err, stdout, stderr) => {
+
+    if (err) { console.log(err); }
+
+    console.log(stdout);
+
+});
+
+//mjpg-streamerの起動
+
+exec('sudo /home/pi/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer -i "/home/pi/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -f 10 -r 300x300 -d /dev/video1 -y -n" -o "/home/pi/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w /home/pi/mjpg-streamer/mjpg-streamer-experimental/www -p 15001"', (err, stdout, stderr) => {
+
+    if (err) { console.log(err); }
+
+    console.log(stdout);
+
+});
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,35 +45,35 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 // catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
 // error handlers
 
 // development error handler
 // will print stacktrace
-// if (app.get('env') === 'development') {
-//   app.use(function(err, req, res, next) {
-//     res.status(err.status || 500);
-//     res.render('error', {
-//       message: err.message,
-//       error: err
-//     });
-//   });
-// }
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
 
 // production error handler
 // no stacktraces leaked to user
-// app.use(function(err, req, res, next) {
-//   res.status(err.status || 500);
-//   res.render('error', {
-//     message: err.message,
-//     error: {}
-//   });
-// });
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
 
 
 module.exports = app;
