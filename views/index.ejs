@@ -3,16 +3,16 @@
 <head>
   <title>iRobot Create of Tanks</title>
   <link rel="stylesheet" href="stylesheets/style.css">
-  <script src="http://localhost:8080/socket.io/socket.io.js"></script>
-  <!-- <script src="http://192.168.1.3:8080/socket.io/socket.io.js"></script> -->
+  <!-- <script src="http://localhost:8080/socket.io/socket.io.js"></script> -->
+  <script src="http://192.168.1.16:8080/socket.io/socket.io.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script src="javascripts/control.js"></script>
   <script src="javascripts/jquery.knob.js"></script>
 
   <script language="javascript" type="text/javascript">
-  const socket = io.connect("http://localhost:8080");
-  // const socket = io.connect("http://192.168.1.3:8080");
+  // const socket = io.connect("http://localhost:8080");
+  const socket = io.connect("http://192.168.1.16:8080");
   </script>
 
 
@@ -47,27 +47,6 @@
       </div>
 
       <div id="controller-box">
-        <!-- 砲台カメラとうしろのカメラと本体のコントローラーのボックス -->
-        <!-- var wsh = new ActiveXObject("WScript.Shell");
-        wsh.exec("cmd /C コマンドプロンプトに書き込む内容"); -->
-        <div id="control-houdai-box">
-          <!-- 砲台のカメラの操作 -->
-          <h3>Battery</h3>
-          <div class="servo_battery">
-            <input type="text" class="dial_battery">
-          </div>
-          <!-- <div><a id="reset_btn_battery" class="btn">RESET</a></div> -->
-          <div><a id = "shoot_button" input type="button" onClick= "control_battery_shoot()" class="btn">発射</a></div>
-        </div>
-
-        <div id="control-back-box">
-          <!-- iRobot Createのおしりに乗せるカメラの操作 -->
-          <h3>Camera</h3>
-          <div class="servo_back">
-            <input type="text" class="dial_back">
-          </div>
-          <!-- <div><a id="reset_btn_back" class="btn">RESET</a></div> -->
-        </div>
 
         <div id="control-body-box">
           <div id="control-body-box-button">
@@ -93,6 +72,28 @@
 
         </div>
 
+        <!-- 砲台カメラとうしろのカメラと本体のコントローラーのボックス -->
+        <!-- var wsh = new ActiveXObject("WScript.Shell");
+        wsh.exec("cmd /C コマンドプロンプトに書き込む内容"); -->
+        <div id="control-houdai-box">
+          <!-- 砲台のカメラの操作 -->
+          <h3>Battery</h3>
+          <div class="servo_battery">
+            <input type="text" class="dial_battery">
+          </div>
+          <!-- <div><a id="reset_btn_battery" class="btn">RESET</a></div> -->
+          <div><a id = "shoot_button" input type="button" onClick= "control_battery_shoot()" class="btn">発射</a></div>
+        </div>
+
+        <div id="control-back-box">
+          <!-- iRobot Createのおしりに乗せるカメラの操作 -->
+          <h3>Camera</h3>
+          <div class="servo_back">
+            <input type="text" class="dial_back">
+          </div>
+          <!-- <div><a id="reset_btn_back" class="btn">RESET</a></div> -->
+        </div>
+
       </div>
 
 
@@ -114,7 +115,7 @@
             </form>
             <ul id="system-text"></ul>
           </div>
-          <div id="controlainer">
+          <div id="container">
             <ul id="messages"></ul>
           </div>
         </div>

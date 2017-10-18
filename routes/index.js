@@ -3,6 +3,7 @@ var app = express();
 var router = express.Router();
 var http = require('http');
 var sql = require('../public/javascripts/mysqlConnection');
+var fs = require('fs');
 // var rpio = require('rpio');
 
 //Enable PWM on the chosen pin and set the clock and range.
@@ -80,18 +81,25 @@ io.on('connection', function(socket){
       case 'body_straight':
       body_straight_flag=true;
       console.log("straightflag is true");
+      fs.appendFile('writetest.csv', socket.id + "," + "straight\n" ,'utf8', function (err) {
+      });
       break;
       case 'body_right':
       body_right_flag = true;
       console.log("rightflag is true");
+      fs.appendFile('writetest.csv', socket.id + "," + "sright\n" ,'utf8', function (err) {
+      });
       break;
       case 'body_left':
       body_left_flag = true;
       console.log("leftflag is true");
+      fs.appendFile('writetest.csv', socket.id + "," + "left\n" ,'utf8', function (err) {
+      });
       break;
       case 'body_back':
       body_back_flag = true;
-      console.log("backflag is true");
+      fs.appendFile('writetest.csv', socket.id + "," + "back\n" ,'utf8', function (err) {
+      });
       break;
       case 'body_straight_stop':
       body_straight_flag = false;
@@ -132,7 +140,6 @@ io.on('connection', function(socket){
       // rpio.write(pin_right2, rpio.LOW);
       // rpio.write(pin_left1, rpio.HIGH);
       // rpio.write(pin_left2, rpio.LOW);
-      console.log("straaaight")
     }
 
     if(body_left_flag == true){
@@ -140,7 +147,6 @@ io.on('connection', function(socket){
       // rpio.write(pin_right2, rpio.HIGH);
       // rpio.write(pin_left1, rpio.LOW);
       // rpio.write(pin_left2, rpio.HIGH);
-      console.log("lefffft")
     }
 
     if(body_right_flag == true){
@@ -148,7 +154,6 @@ io.on('connection', function(socket){
       // rpio.write(pin_right2, rpio.LOW);
       // rpio.write(pin_left1, rpio.LOW);
       // rpio.write(pin_left2, rpio.LOW);
-      console.log("righhhhhhht")
     }
 
     if(body_back_flag == true){
@@ -156,7 +161,6 @@ io.on('connection', function(socket){
       // rpio.write(pin_right2, rpio.HIGH);
       // rpio.write(pin_left1, rpio.LOW);
       // rpio.write(pin_left2, rpio.HIGH);
-      console.log("baaaaaack")
     }
 
   });
@@ -208,7 +212,6 @@ io.on('connection', function(socket){
 
   // テキスト投稿処理
   socket.on('chat message', (msg) => {
-    // 直前の投稿と同じ時はエラー文を出す
     io.emit('chat message', { // テキスト投稿
       nickname: login_users[socket.id],
       msg: msg

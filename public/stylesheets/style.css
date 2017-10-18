@@ -1,3 +1,14 @@
+body {
+-webkit-touch-callout:none; /* リンク長押しのポップアップを無効化 */
+-webkit-user-select:none; /* テキスト長押しの選択ボックスを無効化 */
+}
+img {
+  pointer-events: none;
+}
+input {
+	font-size: 18px ;
+}
+
 #site-box {
   margin: 0; padding: 0; box-sizing: border-box;
   font: 13px Helvetica, Arial;
@@ -65,13 +76,10 @@ border: 1px solid #098E82;
 
     #chat-box {
       border: 1px solid #098E82;
-      height:500px;
+      height: 500px;
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      /*  form { background: #000; padding: 3px; position: fixed; bottom: 0; left: 1px; width: 295px; }*/
-      /*  form input { border: 0; padding: 10px; width: 226px; margin-right: .5%; }*/
       form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      /*  form button { width: 45px; background: rgb(130, 224, 255); border: none; padding: 10px; }*/
     }
     #bottom-fixed{
       height:50px;
@@ -95,6 +103,8 @@ border: 1px solid #098E82;
 #modalWindow p {color: #fff; margin-bottom: 10px;}
 
 .btn {
+  -webkit-touch-callout:none; /* リンク長押しのポップアップを無効化 */
+  -webkit-user-select:none; /* テキスト長押しの選択ボックスを無効化 */
   display: inline-block;
   *display: inline;
   padding: 4px 12px;
