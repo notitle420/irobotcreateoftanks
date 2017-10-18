@@ -6,6 +6,7 @@ var sql = require('../public/javascripts/mysqlConnection');
 var rpio = require('rpio');
 var sleep =require('sleep');
 var fs = require('fs');
+require('date-utils');
 //Enable PWM on the chosen pin and set the clock and range.
 
 var pin_right1 = 19;
@@ -31,18 +32,18 @@ var control_body_left_int;
 var control_body_right_int;
 var control_body_back_int;
 
- rpio.open(pin_right1, rpio.OUTPUT, rpio.LOW);
- rpio.open(pin_right2, rpio.OUTPUT, rpio.LOW);
+rpio.open(pin_right1, rpio.OUTPUT, rpio.LOW);
+rpio.open(pin_right2, rpio.OUTPUT, rpio.LOW);
 
- rpio.open(pin_left1, rpio.OUTPUT, rpio.LOW);
- rpio.open(pin_left2, rpio.OUTPUT, rpio.LOW);
+rpio.open(pin_left1, rpio.OUTPUT, rpio.LOW);
+rpio.open(pin_left2, rpio.OUTPUT, rpio.LOW);
 
- rpio.init({gpiomem: false});
- rpio.open(pin_servo_back, rpio.PWM);
- rpio.open(pin_servo_battery, rpio.PWM);
- rpio.pwmSetClockDivider(clockdiv_servo_back);
- rpio.pwmSetRange(pin_servo_back, range_servo_back);
- rpio.pwmSetRange(pin_servo_battery, range_servo_battery);
+rpio.init({gpiomem: false});
+rpio.open(pin_servo_back, rpio.PWM);
+rpio.open(pin_servo_battery, rpio.PWM);
+rpio.pwmSetClockDivider(clockdiv_servo_back);
+rpio.pwmSetRange(pin_servo_back, range_servo_back);
+rpio.pwmSetRange(pin_servo_battery, range_servo_battery);
 
 //サーバインスタンス作成
 var server = http.createServer(function (req, res) {
@@ -59,287 +60,310 @@ router.get('/', function(req, res, next) {
 });
 
 io.on('connection', function(socket){
-    socket.on('control', function(key) {
-	switch (key) {
-	    //前カメラ（砲台制御）
-	case 'battery_shoot':
-	    var shoot=1;
-	    var query = 'UPDATE bodystatus set shoot=1 where body_id=2';
-	    sql.query(query, function(err, rows) {
-	    });
-	    console.log("shoot");
-	    break;
-	    // case 'battery_right':
-	    //   console.log(degh);
-	    // break;
-	    // case 'battery_left':
-	    //   console.log(degh);
-	    // break;
-	    // //後ろカメラ制御
-	    // case 'back_right':
-	    // console.log(degh);
-	    // break;
-	    // case 'back_left':
-	    // console.log(degh);
-	    // break;
-	    //機体コントロール
-	case 'body_straight':
-	    body_straight_flag=true;
-	    console.log("straightflag is true");
-            clearInterval(control_body_straight_int);
-            control_body_straight_int = setInterval(function(){
-            fs.appendFile('writetest.csv', socket.id + "," + "straight\n" ,'utf8', function (err) {
-             });
-		rpio.write(pin_right1, rpio.HIGH);
-		rpio.write(pin_right2, rpio.LOW);
-		rpio.write(pin_left1, rpio.HIGH);
-		rpio.write(pin_left2, rpio.LOW);
-	    },500);
-	    break;
-	case 'body_right':
-	    body_right_flag = true;
-	    console.log("rightflag is true");
-            clearInterval(control_body_right_int)
-      fs.appendFile('writetest.csv', socket.id + "," + "right\n" ,'utf8', function (err) {
+  socket.on('control', function(key) {
+    switch (key) {
+      //前カメラ（砲台制御）
+      case 'battery_shoot':
+      var shoot=1;
+      var query = 'UPDATE bodystatus set shoot=1 where body_id=2';
+      sql.query(query, function(err, rows) {
       });
-            control_body_right_int = setInterval(function(){
-		rpio.write(pin_right1, rpio.HIGH);
-		rpio.write(pin_right2, rpio.LOW);
-		rpio.write(pin_left1, rpio.LOW);
-		rpio.write(pin_left2, rpio.HIGH);
-            },500);
-	    break;
-	case 'body_left':
-	    body_left_flag = true;
-	    console.log("leftflag is true");
-            clearInterval(control_body_left_int);
-            fs.appendFile('writetest.csv', socket.id + "," + "left\n" ,'utf8', function (err) {
-            });
-            control_body_left_int = setInterval(function(){
-		rpio.write(pin_right1, rpio.LOW);
-		rpio.write(pin_right2, rpio.HIGH);
-		rpio.write(pin_left1, rpio.HIGH);
-		rpio.write(pin_left2, rpio.LOW);
-            },500);
-	    break;
-	case 'body_back':
-	    body_back_flag = true;
-	    console.log("backflag is true");
-            clearInterval(control_body_back_int);
-            fs.appendFile('writetest.csv', socket.id + "," + "back\n" ,'utf8', function (err) {
-            });
-            control_body_back_int = setInterval(function(){
-		rpio.write(pin_right1, rpio.LOW);
-		rpio.write(pin_right2, rpio.HIGH);
-		rpio.write(pin_left1, rpio.LOW);
-		rpio.write(pin_left2, rpio.HIGH);
-            },500);
-	    break;
-	case 'body_straight_stop':
-	    body_straight_flag = false;
-	    console.log("straightflag is false");
-            clearInterval(control_body_straight_int);
-	    break;
+      console.log("shoot");
+      break;
+      // case 'battery_right':
+      //   console.log(degh);
+      // break;
+      // case 'battery_left':
+      //   console.log(degh);
+      // break;
+      // //後ろカメラ制御
+      // case 'back_right':
+      // console.log(degh);
+      // break;
+      // case 'back_left':
+      // console.log(degh);
+      // break;
+      //機体コントロール
+      case 'body_straight':
+      body_straight_flag=true;
+      console.log("straightflag is true");
+      clearInterval(control_body_straight_int);
+      control_body_straight_int = setInterval(function(){
+        rpio.write(pin_right1, rpio.HIGH);
+        rpio.write(pin_right2, rpio.LOW);
+        rpio.write(pin_left1, rpio.HIGH);
+        rpio.write(pin_left2, rpio.LOW);
+      },500);
+      var dt = new Date();
+      fs.appendFile('writetest.csv', dt + socket.id + "," + "straight\n" ,'utf8', function (err) {
+      });
+
+      break;
+      case 'body_right':
+      body_right_flag = true;
+      console.log("rightflag is true");
+      clearInterval(control_body_right_int)
+      control_body_right_int = setInterval(function(){
+        rpio.write(pin_right1, rpio.HIGH);
+        rpio.write(pin_right2, rpio.LOW);
+        rpio.write(pin_left1, rpio.LOW);
+        rpio.write(pin_left2, rpio.HIGH);
+      },500);
+      var dt = new Date();
+      fs.appendFile('writetest.csv',dt + socket.id + "," + "right\n" ,'utf8', function (err) {
+      });
+      break;
+      case 'body_left':
+      body_left_flag = true;
+      console.log("leftflag is true");
+      clearInterval(control_body_left_int);
+      control_body_left_int = setInterval(function(){
+        rpio.write(pin_right1, rpio.LOW);
+        rpio.write(pin_right2, rpio.HIGH);
+        rpio.write(pin_left1, rpio.HIGH);
+        rpio.write(pin_left2, rpio.LOW);
+      },500);
+      var dt = new Date();
+      fs.appendFile('writetest.csv', dt + socket.id + "," + "left\n" ,'utf8', function (err) {
+      });
+      break;
+      case 'body_back':
+      body_back_flag = true;
+      console.log("backflag is true");
+      clearInterval(control_body_back_int);
+      control_body_back_int = setInterval(function(){
+        rpio.write(pin_right1, rpio.LOW);
+        rpio.write(pin_right2, rpio.HIGH);
+        rpio.write(pin_left1, rpio.LOW);
+        rpio.write(pin_left2, rpio.HIGH);
+      },500);
+      var dt = new Date();
+      fs.appendFile('writetest.csv', dt + socket.id + "," + "back\n" ,'utf8', function (err) {
+      });
+      break;
+      case 'body_straight_stop':
+      body_straight_flag = false;
+      console.log("straightflag is false");
+      clearInterval(control_body_straight_int);
+      var dt = new Date();
+      fs.appendFile('writetest.csv', dt + socket.id + "," + "straigtht stop\n" ,'utf8', function (err) {
+      });
+      break;
       case 'body_right_stop':
-	    body_right_flag = false;
-	    console.log("rightflag is false");
-            clearInterval(control_body_right_int);
-	    break;
-	case 'body_left_stop':
-	    body_left_flag = false;
-	    console.log("leftflag is false");
-            clearInterval(control_body_left_int);
-	    break;
-	case 'body_back_stop':
-	    body_back_flag = false;
-	    console.log("backflag is false");
-            clearInterval(control_body_back_int);
-	    break;
-	    
-	case 'body_stop':
-	    if(body_straight_flag|| body_right_flag|| body_back_flag|| body_left_flag){
-		rpio.write(pin_right1, rpio.LOW);
-		rpio.write(pin_right2, rpio.LOW);
-		rpio.write(pin_left1, rpio.LOW);
-		rpio.write(pin_left2, rpio.LOW);
-		body_straight_flag = false;
-		body_right_flag = false;
-		body_left_flag = false;
-		body_back_flag = false;
-                clearInterval(control_body_straight_int);
-                clearInterval(control_body_right_int);
-                clearInterval(control_body_left_int);
-                clearInterval(control_body_back_int);
-		console.log("stop")
-	    }
-	    break;
-	default:
-	    break;
-	}
+      body_right_flag = false;
+      console.log("rightflag is false");
+      clearInterval(control_body_right_int);
+      var dt = new Date();
+      fs.appendFile('writetest.csv', dt + socket.id + "," + "right stop\n" ,'utf8', function (err) {
+      });
+      break;
+      case 'body_left_stop':
+      body_left_flag = false;
+      console.log("leftflag is false");
+      clearInterval(control_body_left_int);
+      var dt = new Date();
+      fs.appendFile('writetest.csv', dt + socket.id + "," + "left stop\n" ,'utf8', function (err) {
+      });
+      break;
+      case 'body_back_stop':
+      body_back_flag = false;
+      console.log("backflag is false");
+      clearInterval(control_body_back_int);
+      var dt = new Date();
+      fs.appendFile('writetest.csv', dt + socket.id + "," + "back stop\n" ,'utf8', function (err) {
+      });
+      break;
 
-	if(body_straight_flag ==false&& body_right_flag ==false&&body_back_flag == false&& body_left_flag ==false){
-	    rpio.write(pin_right1, rpio.LOW);
-	    rpio.write(pin_right2, rpio.LOW);
-	    rpio.write(pin_left1, rpio.LOW);
-	    rpio.write(pin_left2, rpio.LOW);
-	    //	    body_straight_flag = false;
-	    //	    body_right_flag = false;
-	    //	    body_left_flag = false;
-	    //	    body_back_flag = false;
-	    console.log("stop")
-            clearInterval(control_body_straight_int);
-            clearInterval(control_body_left_int);
-	    clearInterval(control_body_right_int);
-	    clearInterval(control_body_back_int);
-	}
-	
-        
+      case 'body_stop':
+      if(body_straight_flag|| body_right_flag|| body_back_flag|| body_left_flag){
+        rpio.write(pin_right1, rpio.LOW);
+        rpio.write(pin_right2, rpio.LOW);
+        rpio.write(pin_left1, rpio.LOW);
+        rpio.write(pin_left2, rpio.LOW);
+        body_straight_flag = false;
+        body_right_flag = false;
+        body_left_flag = false;
+        body_back_flag = false;
+        clearInterval(control_body_straight_int);
+        clearInterval(control_body_right_int);
+        clearInterval(control_body_left_int);
+        clearInterval(control_body_back_int);
+        var dt = new Date();
+        fs.appendFile('writetest.csv', dt + socket.id + "," + "stop\n" ,'utf8', function (err) {
+        });
+        console.log("stop")
+      }
+      break;
+      default:
+      break;
+    }
 
-    });
-    /*straight*/
-    /*
-    if(body_straight_flag == true){
-	
-	rpio.write(pin_right1, rpio.HIGH);
-	rpio.write(pin_right2, rpio.LOW);
-	rpio.write(pin_left1, rpio.HIGH);
-	rpio.write(pin_left2, rpio.LOW);
-	console.log("straaaight")
-	sleep.usleep(100000);
-       
-    }*/
-    /*	if(body_straight_flag == false){
-	rpio.write(pin_right1, rpio.LOW);
-	rpio.write(pin_right2, rpio.LOW);
-	rpio.write(pin_left1, rpio.LOW);
-	rpio.write(pin_left2, rpio.LOW);
-	    console.log("straaaightStop")
-	    }
-    */	
-	/*straight*/
-	
-    /*left*/
-    /*
-	if(body_left_flag == true){
-	    rpio.write(pin_right1, rpio.LOW);
-	    rpio.write(pin_right2, rpio.HIGH);
-	    rpio.write(pin_left1, rpio.HIGH);
-	    rpio.write(pin_left2, rpio.LOW);
-	    console.log("lefffft");
-	    
-	}
+    if(body_straight_flag ==false&& body_right_flag ==false&&body_back_flag == false&& body_left_flag ==false){
+      rpio.write(pin_right1, rpio.LOW);
+      rpio.write(pin_right2, rpio.LOW);
+      rpio.write(pin_left1, rpio.LOW);
+      rpio.write(pin_left2, rpio.LOW);
+      //	    body_straight_flag = false;
+      //	    body_right_flag = false;
+      //	    body_left_flag = false;
+      //	    body_back_flag = false;
+      console.log("stop")
+      var dt = new Date();
+      fs.appendFile('writetest.csv', dt + socket.id + "," + "stop\n" ,'utf8', function (err) {
+      });
+      clearInterval(control_body_straight_int);
+      clearInterval(control_body_left_int);
+      clearInterval(control_body_right_int);
+      clearInterval(control_body_back_int);
+    }
+
+
+
+  });
+  /*straight*/
+  /*
+  if(body_straight_flag == true){
+
+  rpio.write(pin_right1, rpio.HIGH);
+  rpio.write(pin_right2, rpio.LOW);
+  rpio.write(pin_left1, rpio.HIGH);
+  rpio.write(pin_left2, rpio.LOW);
+  console.log("straaaight")
+  sleep.usleep(100000);
+
+}*/
+/*	if(body_straight_flag == false){
+rpio.write(pin_right1, rpio.LOW);
+rpio.write(pin_right2, rpio.LOW);
+rpio.write(pin_left1, rpio.LOW);
+rpio.write(pin_left2, rpio.LOW);
+console.log("straaaightStop")
+}
+*/
+/*straight*/
+
+/*left*/
+/*
+if(body_left_flag == true){
+rpio.write(pin_right1, rpio.LOW);
+rpio.write(pin_right2, rpio.HIGH);
+rpio.write(pin_left1, rpio.HIGH);
+rpio.write(pin_left2, rpio.LOW);
+console.log("lefffft");
+
+}
 */
 /*
 
-	if(body_left_flag == false){
-	    rpio.write(pin_right1, rpio.LOW);
-	    rpio.write(pin_right2, rpio.LOW);
-	    rpio.write(pin_left1, rpio.LOW);
-	    rpio.write(pin_left2, rpio.LOW);
-	    console.log("lefffftStop")
-	}
+if(body_left_flag == false){
+rpio.write(pin_right1, rpio.LOW);
+rpio.write(pin_right2, rpio.LOW);
+rpio.write(pin_left1, rpio.LOW);
+rpio.write(pin_left2, rpio.LOW);
+console.log("lefffftStop")
+}
 */
-	/*left*/
+/*left*/
 
-	/*right*/
-    /*
-    if(body_right_flag == true){
-	    rpio.write(pin_right1, rpio.HIGH);
-	    rpio.write(pin_right2, rpio.LOW);
-	    rpio.write(pin_left1, rpio.LOW);
-	    rpio.write(pin_left2, rpio.HIGH);
-	    console.log("righhhhhhht")
-	    sleep.usleep(100000);
-	}
+/*right*/
+/*
+if(body_right_flag == true){
+rpio.write(pin_right1, rpio.HIGH);
+rpio.write(pin_right2, rpio.LOW);
+rpio.write(pin_left1, rpio.LOW);
+rpio.write(pin_left2, rpio.HIGH);
+console.log("righhhhhhht")
+sleep.usleep(100000);
+}
 */
 /*
 
-	if(body_right_flag == false){
-	    rpio.write(pin_right1, rpio.LOW);
-	    rpio.write(pin_right2, rpio.LOW);
-	    rpio.write(pin_left1, rpio.LOW);
-	    rpio.write(pin_left2, rpio.LOW);
-	    console.log("righhhhhhhtStop")
-	}
+if(body_right_flag == false){
+rpio.write(pin_right1, rpio.LOW);
+rpio.write(pin_right2, rpio.LOW);
+rpio.write(pin_left1, rpio.LOW);
+rpio.write(pin_left2, rpio.LOW);
+console.log("righhhhhhhtStop")
+}
 */
-	/*right*/
-	
-    /*back*/
-    /*
-	if(body_back_flag == true){
-	    rpio.write(pin_right1, rpio.LOW);
-	    rpio.write(pin_right2, rpio.HIGH);
-	    rpio.write(pin_left1, rpio.LOW);
-	    rpio.write(pin_left2, rpio.HIGH);
-	    console.log("baaaaaack")
-	    sleep.usleep(100000);
-	}
+/*right*/
+
+/*back*/
+/*
+if(body_back_flag == true){
+rpio.write(pin_right1, rpio.LOW);
+rpio.write(pin_right2, rpio.HIGH);
+rpio.write(pin_left1, rpio.LOW);
+rpio.write(pin_left2, rpio.HIGH);
+console.log("baaaaaack")
+sleep.usleep(100000);
+}
 */
 /*
-	if(body_back_flag == false){
-	    rpio.write(pin_right1, rpio.LOW);
-	    rpio.write(pin_right2, rpio.LOW);
-	    rpio.write(pin_left1, rpio.LOW);
-	    rpio.write(pin_left2, rpio.LOW);
-	    console.log("baaaaaackStop")
-	}
+if(body_back_flag == false){
+rpio.write(pin_right1, rpio.LOW);
+rpio.write(pin_right2, rpio.LOW);
+rpio.write(pin_left1, rpio.LOW);
+rpio.write(pin_left2, rpio.LOW);
+console.log("baaaaaackStop")
+}
 */
 
 
-    
-    socket.on('servo_battery_value', function(value) { //サーボ制御
-	var pwm = value;
-	io.emit('servo_battery_value', value);
-	// rpio.pwmSetData(pin_servo_battery, value);
-	console.log(value/180);
-    });
-    
-    socket.on('servo_back_value', function(value) { //サーボ制御
-	var pwm = value;
-	io.emit('servo_back_value', value);
-	// rpio.pwmSetData(pin_servo_back, value);
-	console.log(value/180);
-    });
-    
-    
-    // 接続開始カスタムイベント(接続元ユーザを保存し、他ユーザへ通知)
-    socket.on('enter room', (nickname) => {
-	login_users[socket.id] = nickname;
-	socket.broadcast.emit('newcomer joined', login_users[socket.id]); // 入室したことを他の人に通知
-	io.emit('the number of users', login_users); 　　　　// 参加者一覧を更新
-    });
-    
-    // 退室処理
-    socket.on('disconnect', () => {
-	socket.broadcast.emit('user disconnect', login_users[socket.id]); // 退室したおとを他の人に通知
-	delete login_users[socket.id];
-	io.emit('the number of users', login_users);  // 参加者一覧を更新
-    });
-    
-  // テキスト入力処理
-    var nowTyping = 0;
-    socket.on('start typing', () => {
-	if (nowTyping <= 0) {
-	    socket.broadcast.emit('start typing', login_users[socket.id]);  // 入力開始を他の人に通知
-	}
-	// 一文字打つごとにカウントアップ。打ってから3秒後にカウントダウンし、カウントが0になると入力停止したとみなす
-	nowTyping++;
-	setTimeout(() => {
-	    nowTyping--;
-	    if (nowTyping <= 0) {
-		socket.broadcast.emit('stop typing'); // 入力停止を他の人に通知
-	    }
-	}, 3000);
-    });
-    
-    // テキスト投稿処理
-    socket.on('chat message', (msg) => {
-	// 直前の投稿と同じ時はエラー文を出す
-	io.emit('chat message', { // テキスト投稿
-	    nickname: login_users[socket.id],
-	    msg: msg
-	});
-    });
+
+socket.on('servo_battery_value', function(value) { //サーボ制御
+  var pwm = value;
+  io.emit('servo_battery_value', value);
+  // rpio.pwmSetData(pin_servo_battery, value);
+  console.log(value/180);
+});
+
+socket.on('servo_back_value', function(value) { //サーボ制御
+  var pwm = value;
+  io.emit('servo_back_value', value);
+  // rpio.pwmSetData(pin_servo_back, value);
+  console.log(value/180);
+});
+
+
+// 接続開始カスタムイベント(接続元ユーザを保存し、他ユーザへ通知)
+socket.on('enter room', (nickname) => {
+  login_users[socket.id] = nickname;
+  socket.broadcast.emit('newcomer joined', login_users[socket.id]); // 入室したことを他の人に通知
+  io.emit('the number of users', login_users); 　　　　// 参加者一覧を更新
+});
+
+// 退室処理
+socket.on('disconnect', () => {
+  socket.broadcast.emit('user disconnect', login_users[socket.id]); // 退室したおとを他の人に通知
+  delete login_users[socket.id];
+  io.emit('the number of users', login_users);  // 参加者一覧を更新
+});
+
+// テキスト入力処理
+var nowTyping = 0;
+socket.on('start typing', () => {
+  if (nowTyping <= 0) {
+    socket.broadcast.emit('start typing', login_users[socket.id]);  // 入力開始を他の人に通知
+  }
+  // 一文字打つごとにカウントアップ。打ってから3秒後にカウントダウンし、カウントが0になると入力停止したとみなす
+  nowTyping++;
+  setTimeout(() => {
+    nowTyping--;
+    if (nowTyping <= 0) {
+      socket.broadcast.emit('stop typing'); // 入力停止を他の人に通知
+    }
+  }, 3000);
+});
+
+// テキスト投稿処理
+socket.on('chat message', (msg) => {
+  // 直前の投稿と同じ時はエラー文を出す
+  io.emit('chat message', { // テキスト投稿
+    nickname: login_users[socket.id],
+    msg: msg
+  });
+});
 });
 
 
