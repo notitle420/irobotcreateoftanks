@@ -8,6 +8,8 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var $ = require('jquery');
 
+var hello = "hello"
+
 var app = express();
 
 // view engine setup
