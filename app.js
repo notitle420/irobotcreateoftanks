@@ -10,7 +10,7 @@ var $ = require('jquery');
 
 var app = express();
 const exec = require('child_process').exec;
-exec('sudo /home/pi/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer -i "/home/pi/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -f 10 -r 300x300 -d /dev/video0 -y -n" -o "/home/pi/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w /home/pi/mjpg-streamer/mjpg-streamer-experimental/www -p 15000"', (err, stdout, stderr) => {
+exec('sudo /home/pi/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer -b -i "/home/pi/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -f 5 -r 320×240 -d /dev/video0 -q 50" -o "/home/pi/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w /home/pi/mjpg-streamer/mjpg-streamer-experimental/www -p 15000"', (err, stdout, stderr) => {
 
     if (err) { console.log(err); }
 
@@ -20,7 +20,7 @@ exec('sudo /home/pi/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer -i "/
 
 //mjpg-streamerの起動
 
-exec('sudo /home/pi/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer -i "/home/pi/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -f 10 -r 300x300 -d /dev/video1 -y -n" -o "/home/pi/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w /home/pi/mjpg-streamer/mjpg-streamer-experimental/www -p 15001"', (err, stdout, stderr) => {
+exec('sudo /home/pi/mjpg-streamer/mjpg-streamer-experimental/mjpg_streamer -b -i "/home/pi/mjpg-streamer/mjpg-streamer-experimental/input_uvc.so -f 5 -r 320×240 -d /dev/video1 -q 50" -o "/home/pi/mjpg-streamer/mjpg-streamer-experimental/output_http.so -w /home/pi/mjpg-streamer/mjpg-streamer-experimental/www -p 15001"', (err, stdout, stderr) => {
 
     if (err) { console.log(err); }
 

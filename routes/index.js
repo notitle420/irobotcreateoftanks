@@ -6,8 +6,19 @@ var sql = require('../public/javascripts/mysqlConnection');
 var rpio = require('rpio');
 var sleep =require('sleep');
 var fs = require('fs');
+var os = requre('os');
 require('date-utils');
 //Enable PWM on the chosen pin and set the clock and range.
+
+var interfaces = os.networkInterfaces();
+var ip= '';
+for(let dev in interfaces){
+  interfaces[dev].forEach((details)=>{
+    if(details.internal || details.family != 'IPv4') return;
+    ip =details.address;
+    console.log(ip);
+  });
+}
 
 var pin_right1 = 19;
 var pin_right2 = 22;
