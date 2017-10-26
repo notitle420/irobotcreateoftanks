@@ -3,7 +3,7 @@
 <head>
   <title>iRobot Create of Tanks</title>
   <link rel="stylesheet" href="stylesheets/style.css">
-  <script src="http://<%ip%>:8080/socket.io/socket.io.js"></script> -->
+  <script src="http://<%= myip %>:8080/socket.io/socket.io.js"></script> -->
   <!-- <script src="http://10.0.50.251:8080/socket.io/socket.io.js"></script> -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -11,7 +11,7 @@
   <script src="javascripts/jquery.knob.js"></script>
 
   <script language="javascript" type="text/javascript">
-  const socket = io.connect("http://<%ip%>:8080");
+  const socket = io.connect("http://<%= myip %>:8080");
   // const socket = io.connect("http://10.0.50.251:8080");
   </script>
 
@@ -37,11 +37,11 @@
       <div id="camera-box">
         <!-- 砲台のカメラとおしりに乗せるカメラの映像を出すやつのボックス -->
         <div id="houdai-box">
-          <img src="http://10.0.50.251:15000/?action=stream">
+          <img src="http://<%= myip %>:15000/?action=stream">
         </div>
 
         <div id="back-box">
-          <img src="http://10.0.50.251:15001/?action=stream">
+          <img src="http://<%= myip %>:15001/?action=stream">
         </div>
 
       </div>

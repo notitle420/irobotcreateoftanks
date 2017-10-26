@@ -67,7 +67,10 @@ server.listen(8080);
 var login_users = {};
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Contents' });
+  res.render('index',{
+    title: 'Contents',
+    myip : ip
+  });
 });
 
 io.on('connection', function(socket){
