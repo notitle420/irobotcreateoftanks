@@ -4,9 +4,20 @@ var router = express.Router();
 var http = require('http');
 var sql = require('../public/javascripts/mysqlConnection');
 var fs = require('fs');
+var os = require('os')
 // var rpio = require('rpio');
 
 //Enable PWM on the chosen pin and set the clock and range.
+
+var interfaces = os.networkInterfaces();
+var ip= '';
+for(let dev in interfaces){
+  interfaces[dev].forEach((details)=>{
+    if(details.internal || details.family != 'IPv4') return;
+    ip =details.address;
+    console.log(ip);
+  });
+}
 
 var pin_right1 = 21;
 var pin_right2 = 22;
@@ -50,7 +61,10 @@ server.listen(8080);
 var login_users = {};
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Contents' });
+  res.render('index',{
+    title: 'Contents',
+    myip : ip
+  });
 });
 
 io.on('connection', function(socket){
